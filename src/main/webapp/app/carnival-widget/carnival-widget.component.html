@@ -1,0 +1,67 @@
+<div class="carnival-widget-container">
+  <!-- Floating CARNIVAL icon / Toggle button -->
+  <button class="carnival-widget-toggle" (click)="toggleWidget()" aria-label="Toggle CARNIVAL AI Chat">
+    <fa-icon [icon]="widgetOpen ? 'times' : 'comment-dots'"></fa-icon>
+  </button>
+
+  <!-- Chat Box -->
+  <div class="carnival-chat-box" *ngIf="widgetOpen">
+    <div class="carnival-chat-header">
+      <h3>CARNIVAL AI Assistant</h3>
+      <button class="carnival-close-button" (click)="toggleWidget()" aria-label="Close chat">
+        <fa-icon icon="times"></fa-icon>
+      </button>
+    </div>
+
+    <div class="carnival-chat-messages" #chatMessages>
+      <div *ngFor="let message of messages" [ngClass]="{'user-message': message.sender === 'user', 'ai-message': message.sender === 'ai'}">
+        <div class="message-bubble">
+          <p>{{ message.content }}</p>
+
+          <!-- Ticket Suggestion UI -->
+          <div *ngIf="message.type === 'ticketSuggestion' && message.ticketSuggestion" class="ticket-suggestion-card">
+            <h4>AI Suggested Ticket:</h4>
+            <p><strong>Title:</strong> {{ message.ticketSuggestion.title }}</p>
+            <p><strong>Description:</strong> {{ message.ticketSuggestion.description }}</p>
+            <p><strong>Type:</strong> {{ message.ticketSuggestion.type }}</p>
+            <p><strong>Priority:</strong> {{ message.ticketSuggestion.priority }}</p>
+            <div class="ticket-actions mt-2">
+              <button class="btn btn-sm btn-success mr-2" (click)="confirmTicket(message.ticketSuggestion)" [disabled]="submittingTicket">
+                <fa-icon icon="check" *ngIf="!submittingTicket"></fa-icon>
+                <span *ngIf="submittingTicket" class="spinner-border spinner-border-sm" role="status" aria-hidden="true"></span>
+                Confirm
+              </button>
+              <button class="btn btn-sm btn-danger" (click)="rejectTicket(message.ticketSuggestion)" [disabled]="submittingTicket">
+                <fa-icon icon="times"></fa-icon>
+                Reject
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <!-- Loading indicator for AI response -->
+      <div *ngIf="awaitingAIResponse" class="ai-message">
+        <div class="message-bubble loading-bubble">
+          <div class="spinner-dots">
+            <span></span><span></span><span></span>
+          </div>
+          <p>AI is typing...</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="carnival-chat-input">
+      <input
+        type="text"
+        placeholder="Type your message..."
+        [(ngModel)]="userInput"
+        (keyup.enter)="sendMessage()"
+        [disabled]="awaitingAIResponse || submittingTicket"
+        aria-label="Chat input"
+      />
+      <button class="btn btn-primary" (click)="sendMessage()" [disabled]="!userInput.trim() || awaitingAIResponse || submittingTicket" aria-label="Send message">
+        <fa-icon icon="paper-plane"></fa-icon>
+      </button>
+    </div>
+  </div>
+</div>

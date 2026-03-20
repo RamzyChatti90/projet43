@@ -1,0 +1,212 @@
+$carnival-primary-color: #2682F0; // JHipster primary blue
+$carnival-secondary-color: #6c757d; // Bootstrap secondary
+$carnival-light-color: #f8f9fa; // Bootstrap light
+$carnival-dark-color: #343a40; // Bootstrap dark
+$carnival-text-color: #333; // General text color
+$carnival-border-color: #dee2e6; // General border color
+$carnival-box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.15); // Standard shadow
+$carnival-border-radius: 0.5rem; // Standard border radius
+
+.carnival-widget-container {
+  position: fixed;
+  bottom: 2rem;
+  right: 2rem;
+  z-index: 1000;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+
+  .carnival-toggle-button {
+    background-color: $carnival-primary-color;
+    color: white;
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.8rem;
+    cursor: pointer;
+    box-shadow: $carnival-box-shadow;
+    transition: transform 0.2s ease-in-out, background-color 0.2s ease-in-out;
+    outline: none; // Remove outline on focus
+
+    &:hover {
+      background-color: darken($carnival-primary-color, 8%);
+      transform: scale(1.05);
+    }
+
+    &:active {
+      transform: scale(0.95);
+    }
+
+    // Optional: for Font Awesome icons
+    fa-icon {
+      font-size: inherit; // Ensure the icon scales with the button's font-size
+    }
+  }
+
+  .carnival-chat-window {
+    position: absolute;
+    bottom: calc(3rem + 60px); // Position above the toggle button + 1rem margin
+    right: 0;
+    width: 380px;
+    max-height: 550px;
+    background-color: white;
+    border-radius: $carnival-border-radius;
+    box-shadow: $carnival-box-shadow;
+    display: flex;
+    flex-direction: column;
+    overflow: hidden; // Ensures content respects border-radius
+
+    // Initial state (closed)
+    transform: scale(0.7);
+    opacity: 0;
+    pointer-events: none; // Prevent interaction when hidden
+    transform-origin: bottom right; // Animate from the bottom right corner
+    transition: transform 0.3s cubic-bezier(0.68, -0.55, 0.27, 1.55), opacity 0.3s ease-in-out; // Bounce effect for transform
+
+    &.open {
+      transform: scale(1);
+      opacity: 1;
+      pointer-events: all;
+    }
+
+    .carnival-chat-header {
+      background-color: $carnival-primary-color;
+      color: white;
+      padding: 0.8rem 1rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid darken($carnival-primary-color, 5%);
+
+      h3 {
+        margin: 0;
+        font-size: 1.2rem;
+        font-weight: 500;
+      }
+
+      .carnival-close-button {
+        background: none;
+        border: none;
+        color: white;
+        font-size: 1.5rem;
+        cursor: pointer;
+        padding: 0.2rem;
+        line-height: 1; // Align icon better
+        outline: none;
+
+        &:hover {
+          color: lighten($carnival-primary-color, 15%);
+        }
+      }
+    }
+
+    .carnival-chat-messages {
+      flex-grow: 1;
+      padding: 1rem;
+      overflow-y: auto;
+      background-color: $carnival-light-color; // Light background for chat area
+      display: flex;
+      flex-direction: column; // Stack messages vertically
+
+      // Scrollbar styling for Webkit browsers
+      &::-webkit-scrollbar {
+        width: 8px;
+      }
+      &::-webkit-scrollbar-track {
+        background: $carnival-light-color;
+      }
+      &::-webkit-scrollbar-thumb {
+        background-color: $carnival-secondary-color;
+        border-radius: 4px;
+        border: 2px solid $carnival-light-color;
+      }
+
+      .message-bubble {
+        padding: 0.7rem 1rem;
+        border-radius: $carnival-border-radius;
+        margin-bottom: 0.5rem;
+        max-width: 80%; // Limit bubble width
+        word-wrap: break-word; // Handle long words
+        line-height: 1.4;
+        font-size: 0.95rem;
+      }
+
+      .user-message {
+        align-self: flex-end; // Right align for user messages
+        background-color: $carnival-primary-color;
+        color: white;
+        border-bottom-right-radius: 0.2rem; // Slightly different radius for last corner
+      }
+
+      .ai-message {
+        align-self: flex-start; // Left align for AI messages
+        background-color: #e2e6ea; // Light grey for AI
+        color: $carnival-text-color;
+        border-bottom-left-radius: 0.2rem;
+      }
+
+      .typing-indicator {
+        font-style: italic;
+        color: $carnival-secondary-color;
+        background-color: #f0f2f5;
+        padding: 0.7rem 1rem;
+        border-radius: $carnival-border-radius;
+        align-self: flex-start;
+      }
+    }
+
+    .carnival-chat-input {
+      display: flex;
+      padding: 0.8rem 1rem;
+      border-top: 1px solid $carnival-border-color;
+      background-color: white;
+
+      input[type="text"] {
+        flex-grow: 1;
+        border: 1px solid $carnival-border-color;
+        border-radius: $carnival-border-radius;
+        padding: 0.6rem 1rem;
+        margin-right: 0.5rem;
+        font-size: 1rem;
+        outline: none; // Remove default focus outline
+
+        &:focus {
+          border-color: $carnival-primary-color;
+          box-shadow: 0 0 0 0.2rem rgba($carnival-primary-color, 0.25);
+        }
+      }
+
+      button {
+        background-color: $carnival-primary-color;
+        color: white;
+        border: none;
+        border-radius: $carnival-border-radius;
+        padding: 0.6rem 1rem;
+        cursor: pointer;
+        font-size: 1rem;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        transition: background-color 0.2s ease-in-out;
+        outline: none;
+
+        &:hover {
+          background-color: darken($carnival-primary-color, 8%);
+        }
+
+        &:active {
+          transform: translateY(1px); // Simple click effect
+        }
+
+        fa-icon {
+          // Adjust if FontAwesome icon has default margin
+          margin: 0;
+        }
+      }
+    }
+  }
+}
