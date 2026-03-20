@@ -1,32 +1,31 @@
-import { Component, inject } from '@angular/core';
-import { registerLocaleData } from '@angular/common';
-import dayjs from 'dayjs/esm';
-import { FaIconLibrary } from '@fortawesome/angular-fontawesome';
-import { NgbDatepickerConfig } from '@ng-bootstrap/ng-bootstrap';
-import locale from '@angular/common/locales/en';
-// jhipster-needle-angular-add-module-import JHipster will add new module here
+import { Component, OnInit } from '@angular/core';
+import { RouterOutlet } from '@angular/router';
+import { CommonModule } from '@angular/common';
+import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 
-import { ApplicationConfigService } from 'app/core/config/application-config.service';
-import { fontAwesomeIcons } from './config/font-awesome-icons';
-import MainComponent from './layouts/main/main.component';
+import { MainComponent } from './layouts/main/main.component';
+
+// Import the CarnivalWidgetComponent
+import { CarnivalWidgetComponent } from '../carnival-widget/carnival-widget.component';
 
 @Component({
+  standalone: true,
   selector: 'jhi-app',
-  template: '<jhi-main />',
+  templateUrl: './app.component.html',
+  styleUrls: ['./app.component.scss'],
   imports: [
+    CommonModule,
+    RouterOutlet,
+    NgbModule,
     MainComponent,
-    // jhipster-needle-angular-add-module JHipster will add new module here
+    // Add CarnivalWidgetComponent to the imports array to make it available in the template
+    CarnivalWidgetComponent,
   ],
 })
-export default class AppComponent {
-  private readonly applicationConfigService = inject(ApplicationConfigService);
-  private readonly iconLibrary = inject(FaIconLibrary);
-  private readonly dpConfig = inject(NgbDatepickerConfig);
+export class AppComponent implements OnInit {
+  constructor() {}
 
-  constructor() {
-    this.applicationConfigService.setEndpointPrefix(SERVER_API_URL);
-    registerLocaleData(locale);
-    this.iconLibrary.addIcons(...fontAwesomeIcons);
-    this.dpConfig.minDate = { year: dayjs().subtract(100, 'year').year(), month: 1, day: 1 };
+  ngOnInit(): void {
+    // Application-wide initialization logic can go here
   }
 }
