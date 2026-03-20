@@ -1,0 +1,2 @@
+org.springframework.test.context.ContextCustomizerFactory = \
+    com.carnival.projet43.config.SqlTestContainersSpringContextCustomizerFactory

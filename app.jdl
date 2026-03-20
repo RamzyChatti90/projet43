@@ -2,38 +2,12 @@ application {
   config {
     baseName projet43
     applicationType monolith
-    packageName com.projet43
     authenticationType jwt
-    prodDatabaseType postgresql
-    devDatabaseType h2Disk
     buildTool maven
     clientFramework angular
-    serverPort 8081
-    enableSwaggerCodegen Boolean
-    nativeLanguage fr
-    languages [fr, en]
+    databaseType sql
+    devDatabaseType h2Disk
+    prodDatabaseType postgresql
+    packageName com.carnival.projet43
   }
-  entities *
 }
-
-entity Product {
-  name String required
-  price BigDecimal required
-  stock Integer
-}
-
-entity Category {
-  name String required
-}
-
-relationship ManyToOne {
-  Product{category} to Category
-}
-
-dto Product with mapstruct
-service Product with serviceImpl
-paginate Product with pagination
-
-dto Category with mapstruct
-service Category with serviceImpl
-paginate Category with pagination
